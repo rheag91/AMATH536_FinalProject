@@ -38,13 +38,13 @@ int runs = 1;         // Number of simulation repeats
 
 // Initiate a bunch of vectors to store cell states troughout the simulation
 
-vector <double> State (1,initialcopies);
+vector <double> State (1,initialcopies); //stores ecDNA copy number of each cell (one cell per entry, number of ecDNA copies is the entry)
 
 vector < vector <double> > FinalOutput (runs ,vector <double> (NumCells+1,0));
 
 vector < vector <double> > Neutral (runs ,vector <double> (NumCells,0));
 
-vector <double> Rate (NumCells ,0);
+vector <double> Rate (NumCells ,0); 
 
 vector <double> Rate1 (NumCells ,0);
 
@@ -71,7 +71,7 @@ int main()
     
     int count1 = 0;  // Dummy variable to count number of simulation repeats
 
-    // initialize fitness array (must run in function scope)
+    // initialize fitness array
     for (int i=0; i<100; i++)
     {
         fitness[i] = 1.0 + 0.01*i;
@@ -86,18 +86,18 @@ int main()
        
         int count = 0; // Dummy Variable to count until the number of maximal cells
         int cell_copy_counts[500] = {0}; 
+        cell_copy_counts[initialcopies] = 1; //indicates 1 cell in the initialcopies state
         
         // Reset some of the vectors of the simulation
         
         State.resize(1);
         State.at(0)=initialcopies;
-        NumNeutral = 0;
+        NumNeutral = 0; //count cells with no ecDNA
         
         
         while (count < NumCells)
         {
             cout << count1 << " " << count << "\n"; // output current state of the simulation
-            
             
             // Define a bunch of dummy variables to store intermediate ecDNA copy number and cell fitness
             
@@ -113,22 +113,20 @@ int main()
             // The Gillespie algorithm can be more complicated and can contain cell death negative selection or copy number dependent selection etc.
             
             a1 = exprand( NumNeutral ); // Random number of neutral cell population
-            a2 = fitness * State.size();
+            a2 = fitness * State.size(); // ecDNA cell population with adjusted rate
             a3 = exprand( a2 );         // Random number of ecDNA cell population
             
-            Neutral.at(count1).at(count) = NumNeutral ;
+            Neutral.at(count1).at(count) = NumNeutral ; //indexes Neutral to store the number of neutral cells 
             
             // If a1 < a3 a neutral cell is picked for proliferation. In contrast if a3 >= a1 a cell with ecDNA is picked for proliferation
             
             if (a1 <= a3)
             {
                 NumNeutral++;
-                
-                
+                    
             }
             else
             {
-                
                 
                 if (State.size() > 0)
                 {  std::uniform_int_distribution<> dist(0, State.size() - 1);
@@ -139,16 +137,17 @@ int main()
                     
                     std::binomial_distribution<> d(c4 ,0.5); // Random binomial trail to distribute the ecDNA copies into daughter cells
                     
-                    s2 = d(gen);
+                    s2 = d(gen); //draw the number of ecDNA copies in one of the daughter cells
                     
                     // Below is just a few statements to make sure to count all possible cases of daughter cells correctly
                     
-                    if (s2==2)
+                    if (s2==2) 
+
                     {Rate1.at(count)++;}
 
                     s3 = State.at(s1);
                 }
-                else
+                else 
                 {
                     s1 = 0;
                     
@@ -187,7 +186,7 @@ int main()
                         
                       
                         
-                        State.push_back(c3);
+                        State.push_back(c3); //adding a new cell with the remaining ecDNA copies
                         
                         
                     }
@@ -250,7 +249,7 @@ int main()
     
     
     // This gives the ecDNA copy number for each cell at the end of the simulation (all measures can be constructed from here)
-
+    // need to save neutral cells!
     datei.open ("NonNeutralSummaryPC3.txt" ,std::ios::out);
     for ( int i=0 ; i<runs ; i++)
     { if (i!=0)
@@ -266,7 +265,7 @@ double exprand( double lambda)
 {
     std::uniform_real_distribution<> unif(0.0, 1.0);
     double y = unif(gen);
-    return (-log(1.-y)/lambda);
+    return (-log(1.-y)/lambda); // transform uniform distribution to exponential distribution with rate lambda
 }
 
 
