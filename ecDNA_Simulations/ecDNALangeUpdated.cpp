@@ -29,7 +29,7 @@ int NumNeutral = 0;      // Initial number of cells with no ecDNA
 int amplify = 2;         // factor of ecDNA amplification upon cell division X -> amplify * X
 
 
-double fitness = 3;      // relative fitness of cells with ecDNA ( fitness =1 corresponds to neutral dynamics)
+double fitness = 1;      // relative fitness of cells with ecDNA ( fitness =1 corresponds to neutral dynamics)
 
 int initialcopies = 100; // Initial copies of ecDNA in the first founder cell
 
@@ -243,7 +243,7 @@ int main()
     
     // This gives the ecDNA copy number for each cell at the end of the simulation (all measures can be constructed from here)
 
-    datei.open ("NonNeutralSummaryPC3.txt" ,std::ios::out);
+    datei.open ("NonNeutralSummary_NoSelection.txt" ,std::ios::out);
     for ( int i=0 ; i<runs ; i++)
     { if (i!=0)
     { datei << "\n" ;}

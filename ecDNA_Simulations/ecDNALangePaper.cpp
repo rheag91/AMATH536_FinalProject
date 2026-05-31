@@ -1,7 +1,5 @@
-
-
 #include "Anfangsverteilung.h"
-#include "MersenneTwister.h"
+#include "MersenneTwister.h" 
 
 
 
