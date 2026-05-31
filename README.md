@@ -8,3 +8,8 @@ The file 'ecDNA_LangePaper.cpp' is the original code from Lange et al. It does n
 The file 'ecDNA_LangeUpdated.cpp' is a fixed version of 'ecDNA_LangePaper.cpp' which updates the deprecated functions. 
 The folder 'data' contained all simulation data generated for this project. 
 The folder 'figures' contains figures generated for this project.
+
+### Naming conventions
+The data files are in the format ks_{num}_alpha_{num}_k0_{num}.csv. 
+
+ks stands for k star, the threshold at which the fitness function becomes constant. The number immediately after ks in the file name is the k star at which the simulation was run. alpha is the slope of the line. k0 is the number of copies of ecDNA in the initiating cell. 
