@@ -33,7 +33,7 @@ double fitness = 1;      // relative fitness of cells with ecDNA ( fitness =1 co
 
 int initialcopies = 100; // Initial copies of ecDNA in the first founder cell
 
-int runs = 10;         // Number of simulation repeats
+int runs = 1000;         // Number of simulation repeats
 
 
 // Initiate a bunch of vectors to store cell states troughout the simulation
@@ -243,7 +243,7 @@ int main()
     
     // This gives the ecDNA copy number for each cell at the end of the simulation (all measures can be constructed from here)
 
-    datei.open ("NonNeutralSummary_NoSelection.txt" ,std::ios::out);
+    datei.open ("NonNeutralSummary_1000.txt" ,std::ios::out);
     for ( int i=0 ; i<runs ; i++)
     { if (i!=0)
     { datei << "\n" ;}
